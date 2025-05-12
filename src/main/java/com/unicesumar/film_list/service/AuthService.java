@@ -11,6 +11,16 @@ public class AuthService {
     
     private final List<Usuario> usuarios = new ArrayList<>();
 
+    public AuthService() {
+        Usuario admin = new Usuario();
+        admin.setId(1);
+        admin.setNome("Admin");
+        admin.setEmail("admin@gmail.com");
+        admin.setSenha("123456789");
+
+        usuarios.add(admin);
+    }
+
     public boolean adicionarUsuario(Usuario usuario) {
         usuario.setId(usuarios.size() + 1);
         usuarios.add(usuario);
