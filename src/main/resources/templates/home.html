@@ -18,18 +18,18 @@
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Lista de Tarefas</h2>
+            <h2>Lista de Filmes</h2>
             <a href="/logout" class="btn btn-outline-danger">Logout</a>
         </div>
 
-        <!-- Formulário para nova tarefa -->
-        <form action="/adicionarTarefa" method="post" class="mb-4 row g-3">
+        <!-- Formulário para nova filme -->
+        <form action="/adicionarFilme" method="post" class="mb-4 row g-3">
             <div class="col-auto">
-                <label for="descricao" class="visually-hidden">Descrição</label>
-                <input type="text" name="descricao" id="descricao" class="form-control" placeholder="Nova tarefa">
+                <label for="descricao" class="visually-hidden">Título</label>
+                <input type="text" name="descricao" id="descricao" class="form-control" placeholder="Novo filme">
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-success">Criar Tarefa</button>
+                <button type="submit" class="btn btn-success">Criar Filme</button>
             </div>
         </form>
 
@@ -38,31 +38,18 @@
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Descrição</th>
-                    <th>Data de Criação</th>
-                    <th>Data de Conclusão</th>
-                    <th>Concluída</th>
+                    <th>Título</th>
+                    <th>Gênero</th>
+                    <th>Ano de Lançamento</th>
                     <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="tarefa : ${tarefas}">
-                    <td th:text="${tarefa.id}"></td>
-                    <td th:text="${tarefa.descricao}"></td>
-                    <td th:text="${#temporals.format(tarefa.dataCriacao, 'dd/MM/yyyy')}"></td>
-                    <td
-                        th:text="${tarefa.dataConclusao != null ? #temporals.format(tarefa.dataConclusao, 'dd/MM/yyyy') : '-'}">
-                    </td>
-                    <td>
-                        <span th:text="${tarefa.concluida ? 'Sim' : 'Não'}"
-                            th:classappend="${tarefa.concluida} ? 'text-success' : 'text-warning'"></span>
-                    </td>
-                    <td>
-                        <form th:action="@{/concluirTarefa}" method="post" th:if="${!tarefa.concluida}">
-                            <input type="hidden" name="id" th:value="${tarefa.id}" />
-                            <button type="submit" class="btn btn-sm btn-outline-primary">Concluir</button>
-                        </form>
-                    </td>
+                <tr th:each="filme : ${filmes}">
+                    <td th:text="${filme.id}"></td>
+                    <td th:text="${filme.titulo}"></td>
+                    <td th:text="${filme.genero}"></td>
+                    <td th:text="${filme.anoDeLancamento}"></td>
                 </tr>
             </tbody>
         </table>
