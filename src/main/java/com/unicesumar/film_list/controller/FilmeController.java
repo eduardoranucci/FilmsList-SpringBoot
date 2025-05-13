@@ -16,12 +16,14 @@ import com.unicesumar.film_list.model.Usuario;
 import com.unicesumar.film_list.service.FilmeService;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class FilmeController {
     
-    // @Autowired
-    // private FilmeService filmeService;
+    @Autowired
+    private FilmeService filmeService;
 
     @GetMapping("/home")
     public String home(HttpSession session, Model model) {
@@ -30,8 +32,29 @@ public class FilmeController {
             model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
             return "index";
         }
+        List<Filme> filmes = filmeService.listarFilmes(usuario.getId());
+        model.addAttribute("filmes", filmes);
         model.addAttribute("usuario", usuario);
         return "home";
     }
+
+    @GetMapping("/cadastro")
+    public String cadastro(Model modelo) {
+        modelo.addAttribute("filme", new Filme());
+        return "cadastro";
+    }
+    
+    @PostMapping("/adicionarFilme")
+    public String adicionarTarefa(HttpSession session, @ModelAttribute Filme filme, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) {
+            model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
+            return "index";
+        }
+
+        filmeService.adicionarFilme(filme, usuario.getId());
+        return "redirect:/home";
+    }
+    
     
 }
