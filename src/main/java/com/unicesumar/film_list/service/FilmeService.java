@@ -20,9 +20,17 @@ public class FilmeService {
         return true;
     }
 
-    public List<Filme> listarFilmes(int id) {
+    public List<Filme> listarFilmes(int id, String nomeLista) {
+        
+        List<Filme> filmesList = new ArrayList<>();
+        if (nomeLista.equals("assistir")) {
+            filmesList.addAll(filmesParaAssistir);
+        } else if (nomeLista.equals("assistidos")) {
+            filmesList.addAll(filmesAssistidos);
+        }
+        
         List<Filme> filmesUsuario = new ArrayList<>();
-        for (Filme filme : filmesParaAssistir) {
+        for (Filme filme : filmesList) {
             if (id == filme.getUsuarioId()) {
                 filmesUsuario.add(filme);
             }

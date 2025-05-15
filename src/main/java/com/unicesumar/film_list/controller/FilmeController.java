@@ -28,8 +28,12 @@ public class FilmeController {
             model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
             return "index";
         }
-        List<Filme> filmes = filmeService.listarFilmes(usuario.getId());
-        model.addAttribute("filmes", filmes);
+
+        List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
+        List<Filme> filmesAssistidos = filmeService.listarFilmes(usuario.getId(), "assistidos");
+
+        model.addAttribute("filmesParaAssistir", filmesParaAssistir);
+        model.addAttribute("filmesAssistidos", filmesAssistidos);
         model.addAttribute("usuario", usuario);
         return "home";
     }
