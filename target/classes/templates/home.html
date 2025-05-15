@@ -81,7 +81,7 @@
                                                         aria-label="Fechar"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="filmeId" th:value="${filme.id}" />
+                                                    <input type="hidden" name="id" th:value="${filme.id}" />
 
                                                     <div class="mb-3">
                                                         <label for="dataAssistido" class="form-label">Data</label>
@@ -121,7 +121,7 @@
                             <td th:text="${filme.titulo}"></td>
                             <td th:text="${filme.genero}"></td>
                             <td th:text="${filme.anoDeLancamento}"></td>
-                            <td th:text="${filme.dataAssistido}"></td>
+                            <td th:text="${#temporals.format(filme.dataAssistido, 'dd/MM/yyyy')}"></td>
                         </tr>
                     </tbody>
                 </table>

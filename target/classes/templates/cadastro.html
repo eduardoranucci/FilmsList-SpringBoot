@@ -11,26 +11,28 @@
 
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Cadastro de Filme</h2>
-        <form action="/adicionarFilme" method="post">
-            <div class="mb-3">
+        <h2 class="mb-4 text-center">Cadastro de Filme</h2>
+        <form action="/adicionarFilme" method="post" class="d-flex flex-column align-items-center">
+            <div class="mb-3 w-50">
                 <label for="titulo" class="form-label">Título</label>
                 <input type="text" class="form-control" name="titulo" id="titulo" required>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 w-50">
                 <label for="genero" class="form-label">Gênero</label>
                 <input type="text" class="form-control" name="genero" id="genero" required>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 w-50">
                 <label for="anoDeLancamento" class="form-label">Ano de Lançamento</label>
                 <input type="text" class="form-control" name="anoDeLancamento" id="anoDeLancamento" pattern="\d{4}"
                     maxlength="4" required title="Digite um ano com 4 dígitos">
-
             </div>
 
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <a href="/home" class="btn btn-secondary">Voltar para a Home</a>
+            </div>
         </form>
     </div>
 

@@ -21,14 +21,14 @@ public class FilmeService {
     }
 
     public List<Filme> listarFilmes(int id, String nomeLista) {
-        
+
         List<Filme> filmesList = new ArrayList<>();
         if (nomeLista.equals("assistir")) {
             filmesList.addAll(filmesParaAssistir);
         } else if (nomeLista.equals("assistidos")) {
             filmesList.addAll(filmesAssistidos);
         }
-        
+
         List<Filme> filmesUsuario = new ArrayList<>();
         for (Filme filme : filmesList) {
             if (id == filme.getUsuarioId()) {
@@ -45,5 +45,15 @@ public class FilmeService {
             }
         }
         return null;
+    }
+
+    public void assistirFilme(Filme filme) {
+        for (int i = 0; i < filmesParaAssistir.size(); i++) {
+            if (filmesParaAssistir.get(i).getId() == filme.getId()) {
+                filmesAssistidos.add(filme);
+                filmesParaAssistir.remove(i);
+                break;
+            }
+        }
     }
 }
