@@ -1,5 +1,7 @@
 package com.unicesumar.film_list.model;
 
+import java.time.LocalDate;
+
 public class Filme {
 
     private int id;
@@ -7,17 +9,19 @@ public class Filme {
     private String titulo;
     private String genero;
     private int anoDeLancamento;
+    private LocalDate dataAssistido;
 
     public Filme() {}
 
     public Filme (int id, int usuarioId, String titulo, String genero, 
-    int anoDeLancamento) {
+    int anoDeLancamento, LocalDate dataAssistido) {
         
         this.id = id;
         this.usuarioId = usuarioId;
         this.titulo = titulo;
         this.genero = genero;
         this.anoDeLancamento = anoDeLancamento;
+        this.dataAssistido = dataAssistido;
     }
 
     public int getId() {
@@ -58,6 +62,14 @@ public class Filme {
 
     public void setAnoDeLancamento(int anoDeLancamento) {
         this.anoDeLancamento = anoDeLancamento;
+    }
+
+    public LocalDate getDataAssistido() {
+        return dataAssistido;
+    }
+
+    public void setDataAssistido(LocalDate dataAssistido) {
+        this.dataAssistido = dataAssistido;
     }
 }
 
