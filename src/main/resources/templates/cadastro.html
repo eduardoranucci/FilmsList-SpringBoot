@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de filme</title>
+    <title>Cadastro de Filme</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <form action="/adicionarFilme" method="post">
-        <label for="titulo">Titulo</label>
-        <input type="text" name="titulo">
+    <div class="container mt-5">
+        <h2 class="mb-4">Cadastro de Filme</h2>
+        <form action="/adicionarFilme" method="post">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" name="titulo" id="titulo" required>
+            </div>
 
-        <label for="genero">Genero</label>
-        <input type="text" name="genero">
+            <div class="mb-3">
+                <label for="genero" class="form-label">Gênero</label>
+                <input type="text" class="form-control" name="genero" id="genero" required>
+            </div>
 
-        <label for="data de lançamento">data de lançamento</label>
-        <input type="number" name="anoDeLancamento">
+            <div class="mb-3">
+                <label for="anoDeLancamento" class="form-label">Ano de Lançamento</label>
+                <input type="text" class="form-control" name="anoDeLancamento" id="anoDeLancamento" pattern="\d{4}"
+                    maxlength="4" required title="Digite um ano com 4 dígitos">
 
-        <button type="submit">Cadastrar</button>
-    </form>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
