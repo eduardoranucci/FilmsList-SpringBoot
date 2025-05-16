@@ -65,4 +65,13 @@ public class FilmeService {
             }
         }
     }
+
+    public boolean filmeJaCadastrado(String titulo) {
+        List<Filme> filmesList = new ArrayList<>();
+        
+        filmesList.addAll(filmesParaAssistir);
+        filmesList.addAll(filmesAssistidos);
+        return filmesList.stream()
+            .anyMatch(f -> f.getTitulo().equalsIgnoreCase(titulo));
+    }
 }

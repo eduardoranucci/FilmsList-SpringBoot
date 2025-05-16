@@ -56,6 +56,12 @@ public class FilmeController {
             return "index";
         }
 
+        if (filmeService.filmeJaCadastrado(filme.getTitulo())) {
+            model.addAttribute("msg", "Filme já cadastrado");
+            model.addAttribute("filme", filme);
+            return "cadastro";
+        }
+
         filmeService.adicionarFilme(filme, usuario.getId());
         return "redirect:/home";
     }
