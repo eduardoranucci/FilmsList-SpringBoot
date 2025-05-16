@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.unicesumar.film_list.model.Filme;
 import com.unicesumar.film_list.model.Usuario;
@@ -49,7 +50,7 @@ public class FilmeController {
     }
 
     @PostMapping("/adicionarFilme")
-    public String adicionarTarefa(HttpSession session, @ModelAttribute Filme filme, Model model) {
+    public String adicionarTarefa(HttpSession session, @ModelAttribute Filme filme, Model model, RedirectAttributes attrs) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) {
             model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
@@ -62,6 +63,7 @@ public class FilmeController {
             return "cadastro";
         }
 
+        attrs.addFlashAttribute("msgSucesso", "Filme cadastrado com sucesso!");
         filmeService.adicionarFilme(filme, usuario.getId());
         return "redirect:/home";
     }
@@ -70,7 +72,8 @@ public class FilmeController {
     public String adicionarData(
             @RequestParam("id") int id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataAssistido,
-            HttpSession session, Model model) {
+            HttpSession session, Model model,
+            RedirectAttributes attrs) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) {
@@ -87,6 +90,7 @@ public class FilmeController {
         List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
         List<Filme> filmesAssistidos = filmeService.listarFilmes(usuario.getId(), "assistidos");
 
+        attrs.addFlashAttribute("msgSucesso", "Data de visualização adicionada com sucesso. Filme movido para assistidos.");
         model.addAttribute("filmesParaAssistir", filmesParaAssistir);
         model.addAttribute("filmesAssistidos", filmesAssistidos);
         model.addAttribute("usuario", usuario);
@@ -95,7 +99,7 @@ public class FilmeController {
     }
 
     @PostMapping("/deletarFilme")
-    public String deletarFilme(@RequestParam("id") int id, HttpSession session, Model model) {
+    public String deletarFilme(@RequestParam("id") int id, HttpSession session, Model model, RedirectAttributes attrs) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) {
             model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
@@ -107,6 +111,7 @@ public class FilmeController {
         List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
         List<Filme> filmesAssistidos = filmeService.listarFilmes(usuario.getId(), "assistidos");
 
+        attrs.addFlashAttribute("msg", "Filme deletado com sucesso");
         model.addAttribute("filmesParaAssistir", filmesParaAssistir);
         model.addAttribute("filmesAssistidos", filmesAssistidos);
         model.addAttribute("usuario", usuario);
