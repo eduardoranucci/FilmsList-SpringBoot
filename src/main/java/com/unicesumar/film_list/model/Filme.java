@@ -8,14 +8,14 @@ public class Filme {
     private int usuarioId;
     private String titulo;
     private String genero;
-    private int anoDeLancamento;
+    private Integer anoDeLancamento;
     private LocalDate dataAssistido;
 
     public Filme() {}
 
     public Filme (int id, int usuarioId, String titulo, String genero, 
-    int anoDeLancamento, LocalDate dataAssistido) {
-        
+    Integer anoDeLancamento, LocalDate dataAssistido) {
+
         this.id = id;
         this.usuarioId = usuarioId;
         this.titulo = titulo;
@@ -56,11 +56,11 @@ public class Filme {
         this.genero = genero;
     }
     
-    public int getAnoDeLancamento() {
+    public Integer getAnoDeLancamento() {
         return anoDeLancamento;
     }
 
-    public void setAnoDeLancamento(int anoDeLancamento) {
+    public void setAnoDeLancamento(Integer anoDeLancamento) {
         this.anoDeLancamento = anoDeLancamento;
     }
 
