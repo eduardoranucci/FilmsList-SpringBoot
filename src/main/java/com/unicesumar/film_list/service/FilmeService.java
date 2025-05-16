@@ -56,4 +56,13 @@ public class FilmeService {
             }
         }
     }
+
+    public void deletarFilme(int id) {
+        for (int i = 0; i < filmesParaAssistir.size(); i++) {
+            if (filmesParaAssistir.get(i).getId() == id) {
+                filmesParaAssistir.remove(i);
+                break;
+            }
+        }
+    }
 }

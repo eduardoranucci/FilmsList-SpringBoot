@@ -88,4 +88,24 @@ public class FilmeController {
         return "redirect:/home";
     }
 
+    @PostMapping("/deletarFilme")
+    public String deletarFilme(@RequestParam("id") int id, HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) {
+            model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
+            return "index";
+        }
+        
+        filmeService.deletarFilme(id);
+
+        List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
+        List<Filme> filmesAssistidos = filmeService.listarFilmes(usuario.getId(), "assistidos");
+
+        model.addAttribute("filmesParaAssistir", filmesParaAssistir);
+        model.addAttribute("filmesAssistidos", filmesAssistidos);
+        model.addAttribute("usuario", usuario);
+
+        return "redirect:/home";
+    }
+
 }
