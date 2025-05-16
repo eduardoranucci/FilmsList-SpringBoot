@@ -46,7 +46,6 @@
                 <table class="table table-hover table-borderless">
                     <thead class="table-light">
                         <tr>
-                            <th>ID</th>
                             <th>Título</th>
                             <th>Gênero</th>
                             <th>Ano de Lançamento</th>
@@ -55,7 +54,6 @@
                     </thead>
                     <tbody>
                         <tr th:each="filme : ${filmesParaAssistir}">
-                            <td th:text="${filme.id}"></td>
                             <td th:text="${filme.titulo}"></td>
                             <td th:text="${filme.genero}"></td>
                             <td th:text="${filme.anoDeLancamento}"></td>
@@ -108,7 +106,6 @@
                 <table class="table table-hover table-borderless">
                     <thead class="table-light">
                         <tr>
-                            <th>ID</th>
                             <th>Título</th>
                             <th>Gênero</th>
                             <th>Ano</th>
@@ -117,7 +114,6 @@
                     </thead>
                     <tbody>
                         <tr th:each="filme : ${filmesAssistidos}">
-                            <td th:text="${filme.id}"></td>
                             <td th:text="${filme.titulo}"></td>
                             <td th:text="${filme.genero}"></td>
                             <td th:text="${filme.anoDeLancamento}"></td>

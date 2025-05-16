@@ -16,7 +16,7 @@ public class AuthService {
         admin.setId(1);
         admin.setNome("Admin");
         admin.setEmail("admin@gmail.com");
-        admin.setSenha("123456789");
+        admin.setSenha("admin");
 
         usuarios.add(admin);
     }
