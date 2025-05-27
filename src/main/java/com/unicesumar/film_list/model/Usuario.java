@@ -1,27 +1,33 @@
 package com.unicesumar.film_list.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 public class Usuario {
     
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String email;
     private String senha;
     private String nome;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Filme> listaFilmes = new ArrayList<Filme>();
     
     public Usuario() {}
     
-    public Usuario(int id, String email, String senha, String nome) {
-        this.id = id;
+    public Usuario(String email, String senha, String nome) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
-    }
-
-    // getter e setter id
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
 
     // getter e setter email
@@ -46,5 +52,21 @@ public class Usuario {
     }
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<Filme> listarFilmes() {
+        return listaFilmes;
+    }
+
+    public void setListaFilmes(ArrayList<Filme> listaFilmes) {
+        this.listaFilmes = listaFilmes;
+    }
+
+    public void addFilme(Filme filme) {
+        listaFilmes.add(filme);
+    }
+
+    public void removerFilme(int indexFilme) {
+        listaFilmes.remove(indexFilme);
     }
 }
