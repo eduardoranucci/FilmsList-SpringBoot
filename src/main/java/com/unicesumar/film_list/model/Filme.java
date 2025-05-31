@@ -19,6 +19,7 @@ public class Filme {
     private String genero;
     private Integer anoDeLancamento;
     private LocalDate dataAssistido;
+    private boolean assistido = false;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -27,12 +28,13 @@ public class Filme {
     public Filme() {}
 
     public Filme (String titulo, String genero, 
-    Integer anoDeLancamento, LocalDate dataAssistido) {
+    Integer anoDeLancamento, LocalDate dataAssistido, boolean assistido) {
 
         this.titulo = titulo;
         this.genero = genero;
         this.anoDeLancamento = anoDeLancamento;
         this.dataAssistido = dataAssistido;
+        this.assistido = assistido;
     }
 
     public Long getId() {
@@ -78,5 +80,12 @@ public class Filme {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-}
 
+    public boolean isAssistido() {
+        return assistido;
+    }
+
+    public void setAssistido(boolean assistido) {
+        this.assistido = assistido;
+    }
+}

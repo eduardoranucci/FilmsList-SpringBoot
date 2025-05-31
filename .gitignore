@@ -33,3 +33,4 @@ build/
 .vscode/
 
 src/main/resources/data/BD_FilmList.mv.db
+src/main/resources/data/BD_FilmList.trace.db

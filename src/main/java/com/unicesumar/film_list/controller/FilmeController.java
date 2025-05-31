@@ -57,7 +57,7 @@ public class FilmeController {
             return "index";
         }
 
-        if (filmeService.filmeJaCadastrado(filme.getTitulo())) {
+        if (filmeService.filmeJaCadastrado(filme.getTitulo(), usuario.getId())) {
             model.addAttribute("msg", "Filme já cadastrado");
             model.addAttribute("filme", filme);
             return "cadastro";
@@ -83,8 +83,7 @@ public class FilmeController {
 
         Filme filme = filmeService.buscarFilme(id);
         if (filme != null) {
-            filme.setDataAssistido(dataAssistido);
-            filmeService.assistirFilme(filme);
+            filmeService.assistirFilme(filme, dataAssistido);
         }
 
         List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
@@ -99,7 +98,7 @@ public class FilmeController {
     }
 
     @PostMapping("/deletarFilme")
-    public String deletarFilme(@RequestParam("id") int id, HttpSession session, Model model, RedirectAttributes attrs) {
+    public String deletarFilme(@RequestParam("id") Long id, HttpSession session, Model model, RedirectAttributes attrs) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) {
             model.addAttribute("msg", "Sessão expirou ou usuário deslogado");

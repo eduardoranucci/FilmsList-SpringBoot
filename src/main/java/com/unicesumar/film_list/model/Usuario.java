@@ -21,7 +21,7 @@ public class Usuario {
     private String senha;
     private String nome;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Filme> listaFilmes = new ArrayList<Filme>();
     
     public Usuario() {}
@@ -30,6 +30,10 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
+    }
+
+    public Usuario(Long id) {
+        this.id = id;
     }
 
     // getter
