@@ -2,44 +2,43 @@ package com.unicesumar.film_list.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Filme {
 
-    private int id;
-    private int usuarioId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String titulo;
     private String genero;
     private Integer anoDeLancamento;
     private LocalDate dataAssistido;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     public Filme() {}
 
-    public Filme (int id, int usuarioId, String titulo, String genero, 
+    public Filme (String titulo, String genero, 
     Integer anoDeLancamento, LocalDate dataAssistido) {
 
-        this.id = id;
-        this.usuarioId = usuarioId;
         this.titulo = titulo;
         this.genero = genero;
         this.anoDeLancamento = anoDeLancamento;
         this.dataAssistido = dataAssistido;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
     
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(int id) {
-        this.usuarioId = id;
-    }
-
     public String getTitulo() {
         return titulo;
     }
@@ -70,6 +69,14 @@ public class Filme {
 
     public void setDataAssistido(LocalDate dataAssistido) {
         this.dataAssistido = dataAssistido;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
 

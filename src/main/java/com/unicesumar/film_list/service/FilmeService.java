@@ -13,14 +13,12 @@ public class FilmeService {
     private final List<Filme> filmesParaAssistir = new ArrayList<>();
     private final List<Filme> filmesAssistidos = new ArrayList<>();
 
-    public boolean adicionarFilme(Filme filme, int usuarioId) {
-        filme.setId(filmesParaAssistir.size() + 1);
-        filme.setUsuarioId(usuarioId);
+    public boolean adicionarFilme(Filme filme, Long usuarioId) {
         filmesParaAssistir.add(filme);
         return true;
     }
 
-    public List<Filme> listarFilmes(int id, String nomeLista) {
+    public List<Filme> listarFilmes(Long id, String nomeLista) {
 
         List<Filme> filmesList = new ArrayList<>();
         if (nomeLista.equals("assistir")) {
@@ -30,11 +28,6 @@ public class FilmeService {
         }
 
         List<Filme> filmesUsuario = new ArrayList<>();
-        for (Filme filme : filmesList) {
-            if (id == filme.getUsuarioId()) {
-                filmesUsuario.add(filme);
-            }
-        }
         return filmesUsuario;
     }
 
