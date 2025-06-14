@@ -15,15 +15,15 @@
     <div class="container mt-5" style="max-width: 400px;">
         <h2 class="text-center mb-4">Login</h2>
 
-        <form action="/validarLogin" method="post">
+        <form th:action="@{/validarLogin}" method="post">
             <div class="mb-3">
-                <label for="email" class="form-label">E-mail</label>
-                <input type="email" name="email" id="email" class="form-control" required>
+                <label for="username" class="form-label">E-mail</label>
+                <input type="email" name="username" id="username" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="senha" class="form-label">Senha</label>
-                <input type="password" name="senha" id="senha" class="form-control" required>
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" name="password" id="password" class="form-control" required>
             </div>
 
             <div class="d-grid mb-3">
@@ -34,6 +34,13 @@
         <p class="text-center">
             Não tem uma conta? <a href="/registro">Clique aqui para se registrar</a>
         </p>
+
+        <div th:if="${param.error}" class="alert alert-danger text-center" role="alert">
+            <span>Credenciais inválidas. Tente novamente.</span>
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success text-center" role="alert">
+            <span>Logout realizado com sucesso.</span>
+        </div>
 
         <div th:if="${msg}" class="alert alert-danger text-center" role="alert">
             <span th:text="${msg}"></span>

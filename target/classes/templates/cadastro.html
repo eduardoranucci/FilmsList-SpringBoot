@@ -13,6 +13,7 @@
     <div class="container mt-5">
         <h2 class="mb-4 text-center">Cadastro de Filme</h2>
         <form action="/adicionarFilme" th:object="${filme}" method="post" class="d-flex flex-column align-items-center">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div class="mb-3 w-50">
                 <label for="titulo" class="form-label">Título</label>
                 <input type="text" class="form-control" th:field="*{titulo}" name="titulo" id="titulo" required>

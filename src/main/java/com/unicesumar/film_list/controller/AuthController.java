@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.unicesumar.film_list.model.Usuario;
 import com.unicesumar.film_list.service.AuthService;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller

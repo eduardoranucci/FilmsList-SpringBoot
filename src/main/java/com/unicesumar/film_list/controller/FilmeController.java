@@ -1,5 +1,6 @@
 package com.unicesumar.film_list.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.unicesumar.film_list.model.FilmeNaoAssistido;
 import com.unicesumar.film_list.model.FilmeAssistido;
 import com.unicesumar.film_list.model.Usuario;
+import com.unicesumar.film_list.repository.UsuarioRepository;
 import com.unicesumar.film_list.service.FilmeService;
-
-import jakarta.servlet.http.HttpSession;
 
 import java.time.LocalDate;
 
@@ -27,9 +27,13 @@ public class FilmeController {
     @Autowired
     private FilmeService filmeService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @GetMapping("/home")
-    public String home(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+    public String home(Principal principal, Model model) {
+        String email = principal.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email);
 
         List<FilmeNaoAssistido> filmesParaAssistir = filmeService.listarFilmesNaoAssistidos(usuario.getId());
         List<FilmeAssistido> filmesAssistidos = filmeService.listarFilmesAssistidos(usuario.getId());
@@ -47,8 +51,9 @@ public class FilmeController {
     }
 
     @PostMapping("/adicionarFilme")
-    public String adicionarFilme(HttpSession session, @ModelAttribute FilmeNaoAssistido filme, Model model, RedirectAttributes attrs) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+    public String adicionarFilme(Principal principal, @ModelAttribute FilmeNaoAssistido filme, Model model, RedirectAttributes attrs) {
+        String email = principal.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email);
 
         if (filmeService.filmeJaCadastrado(filme.getTitulo(), usuario.getId())) {
             model.addAttribute("msg", "Filme já cadastrado");
@@ -65,10 +70,11 @@ public class FilmeController {
     public String adicionarData(
             @RequestParam("id") int id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataAssistido,
-            HttpSession session, Model model,
+            Principal principal, Model model,
             RedirectAttributes attrs) {
 
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        String email = principal.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email);
 
         FilmeNaoAssistido filme = filmeService.buscarFilmeNaoAssistido(id);
         if (filme != null) {
@@ -87,8 +93,9 @@ public class FilmeController {
     }
 
     @PostMapping("/deletarFilme")
-    public String deletarFilme(@RequestParam("id") Long id, HttpSession session, Model model, RedirectAttributes attrs) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+    public String deletarFilme(@RequestParam("id") Long id, Principal principal, Model model, RedirectAttributes attrs) {
+        String email = principal.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email);
         
         filmeService.deletarFilme(id);
 
