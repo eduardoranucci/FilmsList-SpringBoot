@@ -30,10 +30,6 @@ public class FilmeController {
     @GetMapping("/home")
     public String home(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuario == null) {
-            model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
-            return "index";
-        }
 
         List<FilmeNaoAssistido> filmesParaAssistir = filmeService.listarFilmesNaoAssistidos(usuario.getId());
         List<FilmeAssistido> filmesAssistidos = filmeService.listarFilmesAssistidos(usuario.getId());
@@ -53,10 +49,6 @@ public class FilmeController {
     @PostMapping("/adicionarFilme")
     public String adicionarFilme(HttpSession session, @ModelAttribute FilmeNaoAssistido filme, Model model, RedirectAttributes attrs) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuario == null) {
-            model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
-            return "index";
-        }
 
         if (filmeService.filmeJaCadastrado(filme.getTitulo(), usuario.getId())) {
             model.addAttribute("msg", "Filme já cadastrado");
@@ -77,10 +69,6 @@ public class FilmeController {
             RedirectAttributes attrs) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuario == null) {
-            model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
-            return "index";
-        }
 
         FilmeNaoAssistido filme = filmeService.buscarFilmeNaoAssistido(id);
         if (filme != null) {
@@ -101,10 +89,6 @@ public class FilmeController {
     @PostMapping("/deletarFilme")
     public String deletarFilme(@RequestParam("id") Long id, HttpSession session, Model model, RedirectAttributes attrs) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuario == null) {
-            model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
-            return "index";
-        }
         
         filmeService.deletarFilme(id);
 

@@ -24,19 +24,6 @@ public class AuthController {
         return "index";
     }
     
-    @PostMapping("/validarLogin")
-    public String validarLogin(@ModelAttribute Usuario user, Model modelo, HttpSession sessao) {
-        Usuario usuario = authService.autenticarUsuario(user.getEmail(), user.getSenha());
-
-        if (usuario != null) {
-            sessao.setAttribute("usuarioLogado", usuario);
-            return "redirect:/home";
-        }
-        
-        modelo.addAttribute("msg", "Usuário ou senha incorretos!");
-        return "index";
-    }
-
     @GetMapping("/registro")
     public String registro(Model modelo) {
         modelo.addAttribute("usuario", new Usuario());
@@ -67,12 +54,6 @@ public class AuthController {
 
         authService.adicionarUsuario(user);
         modelo.addAttribute("msgSuccess", "Usuário cadastrado com sucesso!");
-        return "index";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession sessao) {
-        sessao.invalidate();
         return "index";
     }
 }
