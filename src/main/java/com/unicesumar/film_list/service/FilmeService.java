@@ -6,50 +6,76 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.unicesumar.film_list.model.Filme;
+import com.unicesumar.film_list.model.FilmeNaoAssistido;
+import com.unicesumar.film_list.model.FilmeAssistido;
 import com.unicesumar.film_list.model.Usuario;
-import com.unicesumar.film_list.repository.FilmeRepository;
+import com.unicesumar.film_list.repository.FilmeNaoAssistidoRepository;
+import com.unicesumar.film_list.repository.FilmeAssistidoRepository;
 
 @Service
 public class FilmeService {
 
     @Autowired
-    private FilmeRepository filmeRepository;
+    private FilmeNaoAssistidoRepository filmeNaoAssistidoRepository;
 
-    public boolean adicionarFilme(Filme filme, Long usuarioId) {
+    @Autowired
+    private FilmeAssistidoRepository filmeAssistidoRepository;
+
+    public boolean adicionarFilme(FilmeNaoAssistido filme, Long usuarioId) {
         filme.setUsuario(new Usuario(usuarioId));
-        filmeRepository.save(filme);
+        filmeNaoAssistidoRepository.save(filme);
         return true;
     }
 
-    public List<Filme> listarFilmes(Long usuarioId, String nomeLista) {
-        boolean assistido = nomeLista.equalsIgnoreCase("assistidos");
-        return filmeRepository.findByUsuarioIdAndAssistido(usuarioId, assistido);
+    public List<FilmeNaoAssistido> listarFilmesNaoAssistidos(Long usuarioId) {
+        return filmeNaoAssistidoRepository.findByUsuarioId(usuarioId);
     }
 
-    public Filme buscarFilme(int id) {
-        Filme filme = filmeRepository.findById((long) id).orElse(null);
+    public List<FilmeAssistido> listarFilmesAssistidos(Long usuarioId) {
+        return filmeAssistidoRepository.findByUsuarioId(usuarioId);
+    }
+
+    public FilmeNaoAssistido buscarFilmeNaoAssistido(int id) {
+        FilmeNaoAssistido filme = filmeNaoAssistidoRepository.findById((long) id).orElse(null);
         return filme;
     }
 
-    public void assistirFilme(Filme filme, LocalDate dataAssistido) {
-        filme.setDataAssistido(dataAssistido);
-        filme.setAssistido(true);
-        filmeRepository.save(filme);
+    public FilmeAssistido buscarFilmeAssistido(int id) {
+        FilmeAssistido filme = filmeAssistidoRepository.findById((long) id).orElse(null);
+        return filme;
+    }
+
+    public void assistirFilme(FilmeNaoAssistido filme, LocalDate dataAssistido) {
+        FilmeAssistido filmeAssistido = new FilmeAssistido(
+            filme.getTitulo(),
+            filme.getGenero(),
+            filme.getAnoDeLancamento(),
+            dataAssistido
+        );
+        filmeAssistido.setUsuario(filme.getUsuario());
+
+        filmeAssistidoRepository.save(filmeAssistido);
+        Usuario usuario = filme.getUsuario();
+        if (usuario != null) {
+            usuario.listarFilmesNaoAssistidos().remove(filme);
+        }
+        filmeNaoAssistidoRepository.delete(filme);
     }
 
     public void deletarFilme(Long id) {
-        Filme filme = filmeRepository.findById(id).orElse(null);
+        FilmeNaoAssistido filme = filmeNaoAssistidoRepository.findById(id).orElse(null);
         if (filme != null) {
             Usuario usuario = filme.getUsuario();
             if (usuario != null) {
-                usuario.listarFilmes().remove(filme);
+                usuario.listarFilmesNaoAssistidos().remove(filme);
             }
-            filmeRepository.delete(filme);
+            filmeNaoAssistidoRepository.delete(filme);
         }
     }
 
     public boolean filmeJaCadastrado(String titulo, Long usuarioId) {
-        return filmeRepository.existsByTituloIgnoreCaseAndUsuarioId(titulo, usuarioId);
+        boolean existeNaoAssistido = filmeNaoAssistidoRepository.existsByTituloIgnoreCaseAndUsuarioId(titulo, usuarioId);
+        boolean existeAssistido = filmeAssistidoRepository.existsByTituloIgnoreCaseAndUsuarioId(titulo, usuarioId);
+        return existeAssistido || existeNaoAssistido;
     }
 }

@@ -22,8 +22,11 @@ public class Usuario {
     private String nome;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Filme> listaFilmes = new ArrayList<Filme>();
+    private List<FilmeNaoAssistido> listaFilmesNaoAssistidos = new ArrayList<FilmeNaoAssistido>();
     
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<FilmeAssistido> listaFilmesAssistidos = new ArrayList<FilmeAssistido>();
+
     public Usuario() {}
     
     public Usuario(String email, String senha, String nome) {
@@ -65,19 +68,35 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public List<Filme> listarFilmes() {
-        return listaFilmes;
+    public List<FilmeNaoAssistido> listarFilmesNaoAssistidos() {
+        return listaFilmesNaoAssistidos;
     }
 
-    public void setListaFilmes(ArrayList<Filme> listaFilmes) {
-        this.listaFilmes = listaFilmes;
+    public void setListaFilmesNaoAssistidos(ArrayList<FilmeNaoAssistido> listaFilmesNaoAssistidos) {
+        this.listaFilmesNaoAssistidos = listaFilmesNaoAssistidos;
     }
 
-    public void addFilme(Filme filme) {
-        listaFilmes.add(filme);
+    public void addFilmeNaoAssistido(FilmeNaoAssistido filme) {
+        listaFilmesNaoAssistidos.add(filme);
     }
 
-    public void removerFilme(int indexFilme) {
-        listaFilmes.remove(indexFilme);
+    public void removerFilmeNaoAssistido(int indexFilme) {
+        listaFilmesNaoAssistidos.remove(indexFilme);
+    }
+
+    public List<FilmeAssistido> listarFilmesAssistidos() {
+        return listaFilmesAssistidos;
+    }
+
+    public void setListaFilmesAssistidos(ArrayList<FilmeAssistido> listaFilmesAssistidos) {
+        this.listaFilmesAssistidos = listaFilmesAssistidos;
+    }
+
+    public void addFilmeAssistido(FilmeAssistido filme) {
+        listaFilmesAssistidos.add(filme);
+    }
+
+    public void removerFilmeAssistido(int indexFilme) {
+        listaFilmesAssistidos.remove(indexFilme);
     }
 }

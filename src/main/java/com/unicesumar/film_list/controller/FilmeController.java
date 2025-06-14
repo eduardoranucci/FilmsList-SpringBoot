@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.unicesumar.film_list.model.Filme;
+import com.unicesumar.film_list.model.FilmeNaoAssistido;
+import com.unicesumar.film_list.model.FilmeAssistido;
 import com.unicesumar.film_list.model.Usuario;
 import com.unicesumar.film_list.service.FilmeService;
 
@@ -34,8 +35,8 @@ public class FilmeController {
             return "index";
         }
 
-        List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
-        List<Filme> filmesAssistidos = filmeService.listarFilmes(usuario.getId(), "assistidos");
+        List<FilmeNaoAssistido> filmesParaAssistir = filmeService.listarFilmesNaoAssistidos(usuario.getId());
+        List<FilmeAssistido> filmesAssistidos = filmeService.listarFilmesAssistidos(usuario.getId());
 
         model.addAttribute("filmesParaAssistir", filmesParaAssistir);
         model.addAttribute("filmesAssistidos", filmesAssistidos);
@@ -45,12 +46,12 @@ public class FilmeController {
 
     @GetMapping("/cadastro")
     public String cadastro(Model modelo) {
-        modelo.addAttribute("filme", new Filme());
+        modelo.addAttribute("filme", new FilmeNaoAssistido());
         return "cadastro";
     }
 
     @PostMapping("/adicionarFilme")
-    public String adicionarTarefa(HttpSession session, @ModelAttribute Filme filme, Model model, RedirectAttributes attrs) {
+    public String adicionarFilme(HttpSession session, @ModelAttribute FilmeNaoAssistido filme, Model model, RedirectAttributes attrs) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) {
             model.addAttribute("msg", "Sessão expirou ou usuário deslogado");
@@ -81,13 +82,13 @@ public class FilmeController {
             return "index";
         }
 
-        Filme filme = filmeService.buscarFilme(id);
+        FilmeNaoAssistido filme = filmeService.buscarFilmeNaoAssistido(id);
         if (filme != null) {
             filmeService.assistirFilme(filme, dataAssistido);
         }
 
-        List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
-        List<Filme> filmesAssistidos = filmeService.listarFilmes(usuario.getId(), "assistidos");
+        List<FilmeNaoAssistido> filmesParaAssistir = filmeService.listarFilmesNaoAssistidos(usuario.getId());
+        List<FilmeAssistido> filmesAssistidos = filmeService.listarFilmesAssistidos(usuario.getId());
 
         attrs.addFlashAttribute("msgSucesso", "Data de visualização adicionada com sucesso. Filme movido para assistidos.");
         model.addAttribute("filmesParaAssistir", filmesParaAssistir);
@@ -107,10 +108,10 @@ public class FilmeController {
         
         filmeService.deletarFilme(id);
 
-        List<Filme> filmesParaAssistir = filmeService.listarFilmes(usuario.getId(), "assistir");
-        List<Filme> filmesAssistidos = filmeService.listarFilmes(usuario.getId(), "assistidos");
+        List<FilmeNaoAssistido> filmesParaAssistir = filmeService.listarFilmesNaoAssistidos(usuario.getId());
+        List<FilmeAssistido> filmesAssistidos = filmeService.listarFilmesAssistidos(usuario.getId());
 
-        attrs.addFlashAttribute("msg", "Filme deletado com sucesso");
+        attrs.addFlashAttribute("msgSucesso", "Filme deletado com sucesso");
         model.addAttribute("filmesParaAssistir", filmesParaAssistir);
         model.addAttribute("filmesAssistidos", filmesAssistidos);
         model.addAttribute("usuario", usuario);
